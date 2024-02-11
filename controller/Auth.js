@@ -112,7 +112,7 @@ const login = async (req, res) => {
             let token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn:"2h"});
  
               
-            user = user.toObject();
+            user = user.toObject();     //this is use to converting  json document  to javascript object
             user.token = token; //here we are sending jwt token in user object 
             user.password = undefined;  //we are hiding password form user object
             
