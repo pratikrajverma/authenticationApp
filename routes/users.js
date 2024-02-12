@@ -7,7 +7,10 @@ const {auth, isStudent, isAdmin} = require('../middleware/auth');
 router.post("/signup", signup);
 router.post("/login", login) 
 
-//testing routes
+
+
+
+//testing protected routes
 router.get("/test", auth, (req, res) => {
     res.json({
         success:true,
