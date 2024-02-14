@@ -7,16 +7,17 @@ require("dotenv").config();
 const auth = (req, res, next)=>{
     try{
         //Note: we can fetch token by three different ways 1.grom req.body  2.from cookies and 3.from header 
-        
-        
         //extract jwt token 
-        const {token}  = req.body;
- 
-
-        if(!token)
-        {
+        
+        const token  =  req.cookies.token  || req.body.token || req.header("Authorization").replace("Bearer","");
+  
+          
+       
+        console.log(token);
+        if(!token) 
+        { 
             return res.status(401).json({
-                success: "false",
+                success: false,
                 message: "  your token is missing"
             })
             
@@ -39,12 +40,13 @@ const auth = (req, res, next)=>{
 
         }
 
-
+        
         next();         
                         //Yeh process middleware chain ke andar hoti hai. Har middleware ke andar next() ko call karne se control agle middleware mein jata hai aur uss middleware ko execute karne ka mauka milta hai. Aur jab last middleware execute ho jata hai, toh control request ke final destination (endpoint) tak pahunch jata hai. Saath hi, req.user property har middleware ke saath sath chalti hai, jisse har middleware ko user ke details ka access milta hai.
 
     }
     catch(error){
+        console.log("token 2");
         return res.status(401).json({
             success:false,
             message: "somthing went wrong in varifying token"

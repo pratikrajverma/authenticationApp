@@ -115,20 +115,23 @@ const login = async (req, res) => {
             user = user.toObject();     //this is use to converting  json document  to javascript object
             user.token = token; //here we are sending jwt token in user object 
             user.password = undefined;  //we are hiding password form user object
-            
+             
             //create cookies  
             const options = {
-                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),    //expires: Yeh property cookies ka expiration time define karta hai. Is example mein, expires property ko new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) ke saath set kiya gaya hai. Yeh current time (milliseconds mein) se 3 din baad ka time ko represent karta hai. Matlab, yeh cookie 3 din tak valid rahega, uske baad expire ho jayega aur browser use automatically delete kar dega
+                expires: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000),    //expires: Yeh property cookies ka expiration time define karta hai. Is example mein, expires property ko new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) ke saath set kiya gaya hai. Yeh current time (milliseconds mein) se 3 din baad ka time ko represent karta hai. Matlab, yeh cookie 3 din tak valid rahega, uske baad expire ho jayega aur browser use automatically delete kar dega
                 httpOnly: true                      // httpOnly property cookies ko server se hi access karne ki anumati deta hai, lekin client-side JavaScript code se nahi. Isse cookies ke misuse ka khatra kam ho jata hai.
-            }    
-  
-            res.cookie("cookieName", token, options)        //res.cookie() Express.js ka function hai jo cookies ko client ke browser mein set karta hai. Yahan, "token" cookie ka naam hai, token variable ki value jo ki JWT (JSON Web Token) hota hai, aur options object cookie ke options ko define karta hai, jaise ki expiration time, secure attribute, etc
+            }     
+   
+            res.cookie("token", token, options)        //res.cookie() Express.js ka function hai jo cookies ko client ke browser mein set karta hai. Yahan, "token" cookie ka naam hai, token variable ki value jo ki JWT (JSON Web Token) hota hai, aur options object cookie ke options ko define karta hai, jaise ki expiration time, secure attribute, etc
                 .status(200).json({                         //ye json() function Express.js ka hai jo JavaScript objects ko JSON format mein convert karta hai. Yahan diye gaye object mein success, token, user, aur message keys hai, jo ki client ko successful login ka indication dete hain.
                 success: true,
                 token,                                      // JWT token hai jo user ko authenticate karne ke liye istemal kiya jata hai.
                 user,                                       //: User object hai jo user ke details ko represent karta hai, jaise ki naam, email, role, etc.
-                message: "User Login successfully"
+                message: "User Login successfully and cookie created successfully"
             })
+
+
+            
 
         }
         else{
